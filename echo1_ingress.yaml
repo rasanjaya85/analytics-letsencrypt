@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: letsencrypt-rnd
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+    cert-manager.io/cluster-issuer: choreoanalytics-rnd
+    cert-manager.io/acme-challenge-type: http01
+    appgw.ingress.kubernetes.io/health-probe-interval: "20"
+spec:
+  tls:
+  - hosts:
+    - echo1.oh-internal.wso2.com
+    secretName: echo1-hpatest-secret
+  rules:
+  - host: echo1.oh-internal.wso2.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: echo1
+          servicePort: 80
+
+
+
